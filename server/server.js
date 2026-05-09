@@ -12,6 +12,8 @@ app.use(express.json()); // Allows us to parse JSON in requests
 // --- ROUTES ---
 // This is the line you couldn't paste earlier!
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/jobs", require("./routes/jobRoutes")); // <-- Add this line
 
 // Basic test route
 app.get("/", (req, res) => {
