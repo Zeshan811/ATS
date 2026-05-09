@@ -23,7 +23,7 @@ exports.createJob = async (req, res) => {
 };
 
 // @route   GET /api/jobs
-// @desc    Get all jobs (Public)
+// @desc    Get all jobs (Public
 exports.getAllJobs = async (req, res) => {
   try {
     const jobs = await Job.find().sort({ createdAt: -1 }); // Newest first
