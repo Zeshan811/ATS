@@ -14,12 +14,12 @@ import CandidateLayout from './components/layout/CandidateLayout';
 import HRLayout from './components/layout/HRLayout';
 
 // Route guard
-import ProtectedRoute from './components/common/ProtectedRoute';
+import { ProtectedRoute } from './components/common/ProtectedRoute';
 
 // Public Pages
 import HomePage from './pages/public/HomePage';
 import JobsPage from './pages/public/JobsPage';
-import JobDetailPage from './pages/public/JobDetailPage';
+import JobDetailPage from './pages/public/JobPageDetail';
 import AboutPage from './pages/public/AboutPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 import UnauthorizedPage from './pages/public/UnauthorizedPage';

@@ -2,7 +2,7 @@ import {
     Link
 } from 'react-router-dom';
 import {
-    ArrowRight, Briefcase, Users, Building2, CheckCircle, Zap, Shield, TrendingUp
+    ArrowRight, Building2, Zap, Shield, TrendingUp
 } from 'lucide-react';
 
 const STATS = [

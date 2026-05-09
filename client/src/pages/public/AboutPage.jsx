@@ -1,5 +1,5 @@
 import {
-  Building2, Users, MapPin, Mail
+  Building2, MapPin, Mail
 } from 'lucide-react';
 
 const BRANCHES = [

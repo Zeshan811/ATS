@@ -29,6 +29,29 @@ const JobsPage = () => {
     };
 
     useEffect(() => { fetchJobs(); }, [page, filters]);
+    // useEffect(() => {
+    //     const fetchJobs = async () => {
+    //         setLoading(true);
+
+    //         try {
+    //             const { data } = await jobService.getAllJobs({
+    //                 ...filters,
+    //                 page,
+    //                 limit: 10
+    //             });
+
+    //             setJobs(data.jobs || []);
+    //             setTotalPages(data.totalPages || 1);
+    //         } catch (error) {
+    //             alert(error);
+    //             setJobs([]);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+
+    //     fetchJobs();
+    // }, [page, filters]);
 
     const handleFilterChange = (key, val) => {
         setFilters(prev => ({ ...prev, [key]: val }));

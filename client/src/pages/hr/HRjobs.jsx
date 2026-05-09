@@ -20,7 +20,6 @@ const HRJobs = () => {
     const [saving, setSaving] = useState(false);
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues });
-
     const fetchJobs = () => {
         setLoading(true);
         jobService.getHRJobs()
@@ -28,7 +27,6 @@ const HRJobs = () => {
             .catch(() => setJobs([]))
             .finally(() => setLoading(false));
     };
-
     useEffect(() => { fetchJobs(); }, []);
 
     const openCreate = () => { setEditJob(null); reset(defaultValues); setModalOpen(true); };
