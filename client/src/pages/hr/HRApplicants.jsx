@@ -5,12 +5,8 @@ import StatusBadge from '../../components/common/StatusBadge';
 import Modal from '../../components/common/Modal';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import EmptyState from '../../components/common/EmptyState';
-import { Users, ExternalLink, Mail, Calendar, Search, ChevronDown } from 'lucide-react';
-import { timeAgo } from '../../utils/helpers';
-
-const STATUS_OPTIONS = [
-    'submitted', 'under_review', 'shortlisted', 'interview_scheduled', 'selected', 'rejected'
-];
+import { Users, ExternalLink, Mail, Search } from 'lucide-react';
+import { timeAgo, STATUS_OPTIONS } from '../../utils/helpers';
 
 const HRApplicants = () => {
     const [applications, setApplications] = useState([]);
@@ -24,28 +20,37 @@ const HRApplicants = () => {
 
     const fetchApplications = () => {
         setLoading(true);
-        applicationService.getAllApplications()
+        applicationService
+            .getAllApplications()
             .then(({ data }) => setApplications(data.applications || []))
             .catch(() => setApplications([]))
             .finally(() => setLoading(false));
     };
 
-    useEffect(() => { fetchApplications(); }, []);
+    useEffect(() => {
+        fetchApplications();
+    }, []);
 
     const handleStatusChange = async (appId, newStatus) => {
         try {
             await applicationService.updateStatus(appId, { status: newStatus });
-            setApplications(prev => prev.map(a => a._id === appId ? { ...a, status: newStatus } : a));
-            toast.success(`Status updated to ${newStatus.replace('_', ' ')}`);
+            setApplications((prev) =>
+                prev.map((a) => (a._id === appId ? { ...a, status: newStatus } : a))
+            );
+            toast.success(`Status updated to "${newStatus}"`);
         } catch {
             toast.error('Failed to update status');
         }
     };
 
     const handleSendEmail = async () => {
+        // Backend updateStatus accepts customMessage — we'll update status + send message
         setSendingEmail(true);
         try {
-            await applicationService.sendEmail(selectedApp._id, emailData);
+            await applicationService.updateStatus(selectedApp._id, {
+                status: selectedApp.status,
+                customMessage: `${emailData.subject}\n\n${emailData.message}`,
+            });
             toast.success('Email sent successfully!');
             setEmailModal(false);
             setEmailData({ subject: '', message: '' });
@@ -56,8 +61,9 @@ const HRApplicants = () => {
         }
     };
 
-    const filtered = applications.filter(a => {
-        const matchSearch = !search ||
+    const filtered = applications.filter((a) => {
+        const matchSearch =
+            !search ||
             a.candidate?.name?.toLowerCase().includes(search.toLowerCase()) ||
             a.job?.title?.toLowerCase().includes(search.toLowerCase());
         const matchStatus = statusFilter === 'all' || a.status === statusFilter;
@@ -78,23 +84,27 @@ const HRApplicants = () => {
                     <input
                         placeholder="Search by candidate or job..."
                         value={search}
-                        onChange={e => setSearch(e.target.value)}
+                        onChange={(e) => setSearch(e.target.value)}
                         className="input-field pl-10"
                     />
                 </div>
                 <select
                     value={statusFilter}
-                    onChange={e => setStatusFilter(e.target.value)}
-                    className="input-field sm:w-48"
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="input-field sm:w-52"
                 >
                     <option value="all">All Status</option>
-                    {STATUS_OPTIONS.map(s => (
-                        <option key={s} value={s}>{s.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}</option>
+                    {STATUS_OPTIONS.map((s) => (
+                        <option key={s} value={s}>
+                            {s}
+                        </option>
                     ))}
                 </select>
             </div>
 
-            {loading ? <LoadingSpinner /> : filtered.length === 0 ? (
+            {loading ? (
+                <LoadingSpinner />
+            ) : filtered.length === 0 ? (
                 <EmptyState icon={Users} title="No Applicants Found" description="No applications match your filters" />
             ) : (
                 <div className="card overflow-hidden">
@@ -103,18 +113,24 @@ const HRApplicants = () => {
                             <thead>
                                 <tr className="bg-slate-50 border-b border-slate-100">
                                     <th className="text-left text-xs font-semibold text-slate-500 px-5 py-3.5">Candidate</th>
-                                    <th className="text-left text-xs font-semibold text-slate-500 px-5 py-3.5 hidden md:table-cell">Job Position</th>
+                                    <th className="text-left text-xs font-semibold text-slate-500 px-5 py-3.5 hidden md:table-cell">
+                                        Job Position
+                                    </th>
                                     <th className="text-left text-xs font-semibold text-slate-500 px-5 py-3.5">Status</th>
-                                    <th className="text-left text-xs font-semibold text-slate-500 px-5 py-3.5 hidden lg:table-cell">Applied</th>
+                                    <th className="text-left text-xs font-semibold text-slate-500 px-5 py-3.5 hidden lg:table-cell">
+                                        Applied
+                                    </th>
                                     <th className="text-right text-xs font-semibold text-slate-500 px-5 py-3.5">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
-                                {filtered.map(app => (
+                                {filtered.map((app) => (
                                     <tr key={app._id} className="hover:bg-slate-50/60 transition-colors">
                                         <td className="px-5 py-4">
                                             <div>
-                                                <p className="font-semibold text-slate-800 text-sm">{app.candidate?.name || 'N/A'}</p>
+                                                <p className="font-semibold text-slate-800 text-sm">
+                                                    {app.candidate?.name || 'N/A'}
+                                                </p>
                                                 <p className="text-xs text-slate-500">{app.candidate?.email}</p>
                                             </div>
                                         </td>
@@ -125,11 +141,13 @@ const HRApplicants = () => {
                                         <td className="px-5 py-4">
                                             <select
                                                 value={app.status}
-                                                onChange={e => handleStatusChange(app._id, e.target.value)}
+                                                onChange={(e) => handleStatusChange(app._id, e.target.value)}
                                                 className="text-xs border border-slate-200 rounded-lg px-2 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-primary-500"
                                             >
-                                                {STATUS_OPTIONS.map(s => (
-                                                    <option key={s} value={s}>{s.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}</option>
+                                                {STATUS_OPTIONS.map((s) => (
+                                                    <option key={s} value={s}>
+                                                        {s}
+                                                    </option>
                                                 ))}
                                             </select>
                                         </td>
@@ -138,15 +156,24 @@ const HRApplicants = () => {
                                         </td>
                                         <td className="px-5 py-4">
                                             <div className="flex items-center justify-end gap-2">
-                                                {app.resume && (
-                                                    <a href={app.resume} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors" title="View Resume">
+                                                {app.resumeUrl && (
+                                                    <a
+                                                        href={app.resumeUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors"
+                                                        title="View Resume"
+                                                    >
                                                         <ExternalLink className="w-3.5 h-3.5" />
                                                     </a>
                                                 )}
                                                 <button
-                                                    onClick={() => { setSelectedApp(app); setEmailModal(true); }}
+                                                    onClick={() => {
+                                                        setSelectedApp(app);
+                                                        setEmailModal(true);
+                                                    }}
                                                     className="p-1.5 rounded-lg hover:bg-primary-50 text-slate-500 hover:text-primary-600 transition-colors"
-                                                    title="Send Email"
+                                                    title="Send Email / Update Status"
                                                 >
                                                     <Mail className="w-3.5 h-3.5" />
                                                 </button>
@@ -160,37 +187,74 @@ const HRApplicants = () => {
                 </div>
             )}
 
-            {/* Email Modal */}
-            <Modal isOpen={emailModal} onClose={() => setEmailModal(false)} title="Send Email to Candidate" size="md">
+            {/* Email / Status Modal */}
+            <Modal
+                isOpen={emailModal}
+                onClose={() => setEmailModal(false)}
+                title="Send Email to Candidate"
+                size="md"
+            >
                 <div className="space-y-4">
                     <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
                         <p className="text-sm font-semibold text-slate-800">{selectedApp?.candidate?.name}</p>
                         <p className="text-xs text-slate-500">{selectedApp?.candidate?.email}</p>
                     </div>
+
                     <div>
                         <label className="label">Quick Templates</label>
                         <div className="flex flex-wrap gap-2">
                             {[
-                                { label: 'Shortlist', subject: 'Application Shortlisted', message: `Dear ${selectedApp?.candidate?.name},\n\nCongratulations! Your application for ${selectedApp?.job?.title} has been shortlisted. We will be in touch soon with next steps.\n\nBest regards,\nHR Team` },
-                                { label: 'Reject', subject: 'Application Status Update', message: `Dear ${selectedApp?.candidate?.name},\n\nThank you for your interest in the ${selectedApp?.job?.title} position. After careful consideration, we regret to inform you that we won't be moving forward with your application.\n\nWe appreciate your time and wish you the best.\n\nBest regards,\nHR Team` },
-                            ].map(t => (
-                                <button key={t.label} onClick={() => setEmailData({ subject: t.subject, message: t.message })} className="badge bg-slate-100 text-slate-600 cursor-pointer hover:bg-primary-100 hover:text-primary-700 transition-colors">
+                                {
+                                    label: 'Shortlist',
+                                    subject: 'Application Shortlisted',
+                                    message: `Dear ${selectedApp?.candidate?.name},\n\nCongratulations! Your application for ${selectedApp?.job?.title} has been shortlisted. We will be in touch soon.\n\nBest regards,\nHR Team`,
+                                },
+                                {
+                                    label: 'Reject',
+                                    subject: 'Application Status Update',
+                                    message: `Dear ${selectedApp?.candidate?.name},\n\nThank you for your interest in ${selectedApp?.job?.title}. After careful consideration, we regret to inform you that we won't be moving forward with your application.\n\nBest regards,\nHR Team`,
+                                },
+                            ].map((t) => (
+                                <button
+                                    key={t.label}
+                                    onClick={() => setEmailData({ subject: t.subject, message: t.message })}
+                                    className="badge bg-slate-100 text-slate-600 cursor-pointer hover:bg-primary-100 hover:text-primary-700 transition-colors"
+                                >
                                     {t.label}
                                 </button>
                             ))}
                         </div>
                     </div>
+
                     <div>
                         <label className="label">Subject</label>
-                        <input className="input-field" value={emailData.subject} onChange={e => setEmailData(p => ({ ...p, subject: e.target.value }))} placeholder="Email subject" />
+                        <input
+                            className="input-field"
+                            value={emailData.subject}
+                            onChange={(e) => setEmailData((p) => ({ ...p, subject: e.target.value }))}
+                            placeholder="Email subject"
+                        />
                     </div>
                     <div>
                         <label className="label">Message</label>
-                        <textarea rows={6} className="input-field resize-none" value={emailData.message} onChange={e => setEmailData(p => ({ ...p, message: e.target.value }))} placeholder="Type your message..." />
+                        <textarea
+                            rows={6}
+                            className="input-field resize-none"
+                            value={emailData.message}
+                            onChange={(e) => setEmailData((p) => ({ ...p, message: e.target.value }))}
+                            placeholder="Type your message..."
+                        />
                     </div>
+
                     <div className="flex justify-end gap-3">
-                        <button onClick={() => setEmailModal(false)} className="btn-secondary">Cancel</button>
-                        <button onClick={handleSendEmail} disabled={sendingEmail || !emailData.subject || !emailData.message} className="btn-primary disabled:opacity-60">
+                        <button onClick={() => setEmailModal(false)} className="btn-secondary">
+                            Cancel
+                        </button>
+                        <button
+                            onClick={handleSendEmail}
+                            disabled={sendingEmail || !emailData.subject || !emailData.message}
+                            className="btn-primary disabled:opacity-60"
+                        >
                             {sendingEmail ? 'Sending...' : <><Mail className="w-4 h-4" /> Send Email</>}
                         </button>
                     </div>
