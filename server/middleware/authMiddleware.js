@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 exports.protect = (req, res, next) => {
   // Expecting header like: "Bearer <token>"
   const token = req.header("Authorization")?.split(" ")[1];
-
   if (!token)
     return res.status(401).json({ message: "No token, authorization denied" });
 
