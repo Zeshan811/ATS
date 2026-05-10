@@ -17,7 +17,11 @@ const RegisterPage = () => {
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            const { confirmPassword, phone, ...payload } = data;
+            const payload = {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+            };
             // Backend enum expects "Candidate" (capitalised)
             await authRegister({ ...payload, role: 'Candidate' });
             toast.success('Account created! Welcome to HireHub 🎉');

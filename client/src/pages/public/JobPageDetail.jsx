@@ -36,8 +36,7 @@ const JobDetailPage = () => {
             .catch(() => navigate('/jobs'))
             .finally(() => setLoading(false));
     },
-        [id
-        ]);
+        [id]);
 
     if (loading) return <LoadingSpinner fullScreen />;
     if (!job) return null;

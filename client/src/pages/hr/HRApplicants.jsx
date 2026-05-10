@@ -138,18 +138,28 @@ const HRApplicants = () => {
                                             <p className="text-sm text-slate-700">{app.job?.title}</p>
                                             <p className="text-xs text-slate-500">{app.job?.branch}</p>
                                         </td>
-                                        <td className="px-5 py-4">
+                                        {/* <td className="px-5 py-4">
                                             <select
-                                                value={app.status}
+                                                StatusBadge value={app.status}
                                                 onChange={(e) => handleStatusChange(app._id, e.target.value)}
                                                 className="text-xs border border-slate-200 rounded-lg px-2 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                                            >
-                                                {STATUS_OPTIONS.map((s) => (
-                                                    <option key={s} value={s}>
-                                                        {s}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            > */}
+                                        <td className="px-5 py-4">
+                                            <div className="flex flex-col gap-2">
+                                                <StatusBadge status={app.status} />
+
+                                                <select
+                                                    value={app.status}
+                                                    onChange={(e) => handleStatusChange(app._id, e.target.value)}
+                                                    className="text-xs border border-slate-200 rounded-lg px-2 py-1.5 bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                                                >
+                                                    {STATUS_OPTIONS.map((s) => (
+                                                        <option key={s} value={s}>
+                                                            {s}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div >
                                         </td>
                                         <td className="px-5 py-4 hidden lg:table-cell">
                                             <span className="text-xs text-slate-500">{timeAgo(app.createdAt)}</span>

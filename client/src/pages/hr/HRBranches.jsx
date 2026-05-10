@@ -59,12 +59,6 @@ const HRBranches = () => (
       </div>
     </div>
 
-    <div className="card p-4 mb-6 bg-amber-50 border-amber-200">
-      <p className="text-sm text-amber-700">
-        Branch management API is not yet available. Branches are defined in the backend Job model enum.
-        Showing static branch information below.
-      </p>
-    </div>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
       {STATIC_BRANCHES.map((branch) => (

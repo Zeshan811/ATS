@@ -6,7 +6,7 @@ import EmptyState from '../../components/common/EmptyState';
 import Pagination from '../../components/common/Pagination';
 import { Search, MapPin, Briefcase, Clock, ChevronRight, Filter, X } from 'lucide-react';
 import { BRANCHES, DEPARTMENTS, JOB_TYPES, timeAgo } from '../../utils/helpers';
-
+//import { useCallback } from 'react';
 const JobsPage = () => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,44 +15,53 @@ const JobsPage = () => {
     const [filters, setFilters] = useState({ search: '', branch: '', department: '', type: '' });
     const [showFilters, setShowFilters] = useState(false);
 
-    const fetchJobs = async () => {
-        setLoading(true);
-        try {
-            const { data } = await jobService.getAllJobs({ ...filters, page, limit: 10 });
-            setJobs(data.jobs || []);
-            setTotalPages(data.totalPages || 1);
-        } catch {
-            setJobs([]);
-        } finally {
-            setLoading(false);
-        }
-    };
+    // const fetchJobs = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const { data } = await jobService.getAllJobs({ ...filters, page, limit: 10 });
+    //         setJobs(data || []);
+    //         setTotalPages(1);
+    //     } catch {
+    //         setJobs([]);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
-    useEffect(() => { fetchJobs(); }, [page, filters]);
-    // useEffect(() => {
-    //     const fetchJobs = async () => {
-    //         setLoading(true);
+    // useEffect(() => { fetchJobs(); }, [page, filters]);
+    useEffect(() => {
+        let ignore = false;
 
-    //         try {
-    //             const { data } = await jobService.getAllJobs({
-    //                 ...filters,
-    //                 page,
-    //                 limit: 10
-    //             });
+        const load = async () => {
+            setLoading(true);
 
-    //             setJobs(data.jobs || []);
-    //             setTotalPages(data.totalPages || 1);
-    //         } catch (error) {
-    //             alert(error);
-    //             setJobs([]);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
+            try {
+                const { data } = await jobService.getAllJobs({
+                    search: filters.search,
+                    branch: filters.branch,
+                    department: filters.department,
+                    type: filters.type,
+                    page,
+                    limit: 10
+                });
 
-    //     fetchJobs();
-    // }, [page, filters]);
+                if (!ignore) {
+                    setJobs(data.jobs || []);
+                    setTotalPages(1);
+                }
+            } catch {
+                if (!ignore) setJobs([]);
+            } finally {
+                if (!ignore) setLoading(false);
+            }
+        };
 
+        load();
+
+        return () => {
+            ignore = true;
+        };
+    }, [page, filters.search, filters.branch, filters.department, filters.type]);
     const handleFilterChange = (key, val) => {
         setFilters(prev => ({ ...prev, [key]: val }));
         setPage(1);

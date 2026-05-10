@@ -4,7 +4,8 @@ import StatusBadge from '../../components/common/StatusBadge';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import EmptyState from '../../components/common/EmptyState';
 import { FileText, MapPin, ExternalLink, Clock } from 'lucide-react';
-import { formatDate, timeAgo, STATUS_OPTIONS } from '../../utils/helpers';
+import { timeAgo, STATUS_OPTIONS } from '../../utils/helpers';
+
 import { Link } from 'react-router-dom';
 
 // Backend only exposes /applications/job/:jobId (HR route)
@@ -44,8 +45,8 @@ const CandidateApplications = () => {
                         key={s}
                         onClick={() => setFilter(s)}
                         className={`px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${filter === s
-                                ? 'bg-primary-600 text-white shadow-sm'
-                                : 'bg-white border border-slate-200 text-slate-600 hover:border-primary-300'
+                            ? 'bg-primary-600 text-white shadow-sm'
+                            : 'bg-white border border-slate-200 text-slate-600 hover:border-primary-300'
                             }`}
                     >
                         {s === 'all' ? 'All' : s}
