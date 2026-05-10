@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "https://ats-production-b904.up.railway.app";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 console.log(import.meta.env);
 const api = axios.create({
-  baseURL: API_BASE_URL,
+ baseURL: `${API_BASE_URL}/api`,
   headers: { 'Content-Type': 'application/json' },
 });
 
