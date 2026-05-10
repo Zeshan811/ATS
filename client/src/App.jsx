@@ -30,7 +30,7 @@ import ApplyJobPage from './pages/candidate/ApplyJobPage';
 
 // HR Pages
 import HRDashboard from './pages/hr/HRDashboard';
-import HRJobs from './pages/hr/HRjobs';
+import HRJobs from './pages/hr/HRJobs';
 import HRApplicants from './pages/hr/HRApplicants';
 import HRInterviews from './pages/hr/HRInterviews';
 import HRBranches from './pages/hr/HRBranches';
