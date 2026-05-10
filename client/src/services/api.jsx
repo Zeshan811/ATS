@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
-// || 'https://ats-production-b904.up.railway.app/api';
+//  'https://ats-production-b904.up.railway.app/api';
 
+console.log(import.meta.env);
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
