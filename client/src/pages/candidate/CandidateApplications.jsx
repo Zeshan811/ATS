@@ -44,8 +44,8 @@ const CandidateApplications = () => {
                         key={s}
                         onClick={() => setFilter(s)}
                         className={`px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${filter === s
-                                ? 'bg-primary-600 text-white shadow-sm'
-                                : 'bg-white border border-slate-200 text-slate-600 hover:border-primary-300'
+                            ? 'bg-primary-600 text-white shadow-sm'
+                            : 'bg-white border border-slate-200 text-slate-600 hover:border-primary-300'
                             }`}
                     >
                         {s === 'all' ? 'All' : s}
