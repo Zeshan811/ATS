@@ -1,12 +1,6 @@
-import {
-  BrowserRouter, Routes, Route
-} from 'react-router-dom';
-import {
-  Toaster
-} from 'react-hot-toast';
-import {
-  AuthProvider
-} from './context/AuthContext';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { AuthProvider } from './context/AuthContext';
 
 // Layouts
 import PublicLayout from './components/layout/PublicLayout';
@@ -47,92 +41,58 @@ function App() {
       <AuthProvider>
         <Toaster
           position="top-right"
-          toastOptions={
-            {
-              duration: 3500,
-              style: {
-                background: '#fff',
-                color: '#1e293b',
-                borderRadius: '12px',
-                border: '1px solid #f1f5f9',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-                fontSize: '14px',
-                fontWeight: '500',
-              },
-              success: {
-                iconTheme: {
-                  primary: '#4f46e5', secondary: '#fff'
-                }
-              },
-            }
-          }
+          toastOptions={{
+            duration: 3500,
+            style: {
+              background: '#fff',
+              color: '#1e293b',
+              borderRadius: '12px',
+              border: '1px solid #f1f5f9',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+              fontSize: '14px',
+              fontWeight: '500',
+            },
+            success: { iconTheme: { primary: '#4f46e5', secondary: '#fff' } },
+          }}
         />
 
         <Routes>
-          { /* Public Routes */}
-          <Route element={<PublicLayout />
-          }>
-            <Route path="/" element={<HomePage />
-            } />
-            <Route path="/jobs" element={<JobsPage />
-            } />
-            <Route path="/jobs/:id" element={<JobDetailPage />
-            } />
-            <Route path="/about" element={<AboutPage />
-            } />
-            <Route path="/unauthorized" element={<UnauthorizedPage />
-            } />
+          {/* Public Routes */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/jobs" element={<JobsPage />} />
+            <Route path="/jobs/:id" element={<JobDetailPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/unauthorized" element={<UnauthorizedPage />} />
           </Route>
 
-          { /* Auth Routes */}
-          <Route path="/login" element={<LoginPage />
-          } />
-          <Route path="/register" element={<RegisterPage />
-          } />
+          {/* Auth Routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
-          { /* Candidate Routes */}
-          <Route element={<ProtectedRoute allowedRoles={
-            ['candidate'
-            ]
-          } />
-          }>
-            <Route element={<CandidateLayout />
-            }>
-              <Route path="/candidate/dashboard" element={<CandidateDashboard />
-              } />
-              <Route path="/candidate/applications" element={<CandidateApplications />
-              } />
-              <Route path="/candidate/profile" element={<CandidateProfile />
-              } />
-              <Route path="/candidate/apply/:jobId" element={<ApplyJobPage />
-              } />
+          {/* Candidate Routes — role is lowercased in AuthContext */}
+          <Route element={<ProtectedRoute allowedRoles={['candidate']} />}>
+            <Route element={<CandidateLayout />}>
+              <Route path="/candidate/dashboard" element={<CandidateDashboard />} />
+              <Route path="/candidate/applications" element={<CandidateApplications />} />
+              <Route path="/candidate/profile" element={<CandidateProfile />} />
+              <Route path="/candidate/apply/:jobId" element={<ApplyJobPage />} />
             </Route>
           </Route>
 
-          { /* HR / Admin Routes */}
-          <Route element={<ProtectedRoute allowedRoles={
-            ['hr', 'admin'
-            ]
-          } />
-          }>
-            <Route element={<HRLayout />
-            }>
-              <Route path="/hr/dashboard" element={<HRDashboard />
-              } />
-              <Route path="/hr/jobs" element={<HRJobs />
-              } />
-              <Route path="/hr/applicants" element={<HRApplicants />
-              } />
-              <Route path="/hr/interviews" element={<HRInterviews />
-              } />
-              <Route path="/hr/branches" element={<HRBranches />
-              } />
+          {/* HR Routes — role is lowercased in AuthContext */}
+          <Route element={<ProtectedRoute allowedRoles={['hr', 'admin']} />}>
+            <Route element={<HRLayout />}>
+              <Route path="/hr/dashboard" element={<HRDashboard />} />
+              <Route path="/hr/jobs" element={<HRJobs />} />
+              <Route path="/hr/applicants" element={<HRApplicants />} />
+              <Route path="/hr/interviews" element={<HRInterviews />} />
+              <Route path="/hr/branches" element={<HRBranches />} />
             </Route>
           </Route>
 
-          { /* Fallback */}
-          <Route path="*" element={<NotFoundPage />
-          } />
+          {/* Fallback */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
