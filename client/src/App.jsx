@@ -34,7 +34,7 @@ import HRJobs from './pages/hr/HRJobs';
 import HRApplicants from './pages/hr/HRApplicants';
 import HRInterviews from './pages/hr/HRInterviews';
 import HRBranches from './pages/hr/HRBranches';
-
+import './App.css';
 function App() {
   return (
     <BrowserRouter>
