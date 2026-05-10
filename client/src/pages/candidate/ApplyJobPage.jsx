@@ -16,7 +16,7 @@ const ApplyJobPage = () => {
     const [resumeFile, setResumeFile] = useState(null);
     const [coverFile, setCoverFile] = useState(null);
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { handleSubmit } = useForm();
 
     useEffect(() => {
         jobService
@@ -24,11 +24,12 @@ const ApplyJobPage = () => {
             .then(({ data }) => setJob(data.job))
             .catch(() => navigate('/jobs'))
             .finally(() => setLoadingJob(false));
-    }, [jobId]);
+    }, [jobId, navigate]);
 
     const onSubmit = async (data) => {
         if (!resumeFile) {
             toast.error('Please upload your resume');
+            console.log(data);
             return;
         }
         if (!coverFile) {
@@ -79,8 +80,8 @@ const ApplyJobPage = () => {
                     </h2>
                     <label
                         className={`flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed cursor-pointer transition-colors ${resumeFile
-                                ? 'border-primary-400 bg-primary-50'
-                                : 'border-slate-200 hover:border-primary-300 hover:bg-slate-50'
+                            ? 'border-primary-400 bg-primary-50'
+                            : 'border-slate-200 hover:border-primary-300 hover:bg-slate-50'
                             }`}
                     >
                         <input
@@ -112,8 +113,8 @@ const ApplyJobPage = () => {
                     </h2>
                     <label
                         className={`flex flex-col items-center justify-center w-full h-24 rounded-xl border-2 border-dashed cursor-pointer transition-colors ${coverFile
-                                ? 'border-green-400 bg-green-50'
-                                : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                            ? 'border-green-400 bg-green-50'
+                            : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                             }`}
                     >
                         <input

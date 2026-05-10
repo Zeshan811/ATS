@@ -3,12 +3,11 @@ import { useForm } from 'react-hook-form';
 import { jobService } from '../../services/jobService';
 import { toast } from 'react-hot-toast';
 import Modal from '../../components/common/Modal';
-import ConfirmDialog from '../../components/common/ConfirmDialog';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import EmptyState from '../../components/common/EmptyState';
-import { Plus, Trash2, MapPin, Briefcase, Users } from 'lucide-react';
+import { Plus, MapPin, Briefcase, Users } from 'lucide-react';
 import { BRANCHES, DEPARTMENTS, formatDate } from '../../utils/helpers';
-
+import { useCallback } from 'react';
 // Backend Job model: { title, description, department, branch, availableSeats }
 const defaultValues = {
     title: '',
@@ -22,7 +21,6 @@ const HRJobs = () => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
-    const [deleteId, setDeleteId] = useState(null);
     const [saving, setSaving] = useState(false);
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues });
