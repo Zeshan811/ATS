@@ -7,7 +7,6 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import EmptyState from '../../components/common/EmptyState';
 import { Plus, MapPin, Briefcase, Users } from 'lucide-react';
 import { BRANCHES, DEPARTMENTS, formatDate } from '../../utils/helpers';
-import { useCallback } from 'react';
 // Backend Job model: { title, description, department, branch, availableSeats }
 const defaultValues = {
     title: '',
