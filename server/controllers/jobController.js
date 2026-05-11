@@ -32,5 +32,10 @@ exports.getAllJobs = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+ backend
+
+
+//Job controller js set 
+=======
 // @route   GET /api/jobs
-// @desc    Get all jobs (Public with filters)
+// @desc    Get all jobs (Public with filtermain

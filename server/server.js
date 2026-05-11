@@ -20,7 +20,7 @@ app.use("/api/applications", require("./routes/applicationRoutes"));
 app.get("/", (req, res) => {
   res.send("ATS Backend is running!");
 });
-
+//Main files edit 
 // Database Connection
 mongoose
   .connect(process.env.MONGO_URI)
