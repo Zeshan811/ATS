@@ -3,7 +3,7 @@ import { Building2, MapPin, Mail, Phone } from 'lucide-react';
 // Backend doesn't have a /branches route.
 // Branches are hardcoded in the Job model enum: Islamabad, Lahore, Karachi, Remote
 // This page displays them as static info.
-
+//branches
 const STATIC_BRANCHES = [
   {
     _id: '1',
