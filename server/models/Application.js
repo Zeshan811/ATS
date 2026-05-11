@@ -10,6 +10,7 @@ const applicationSchema = new mongoose.Schema(
     },
     resumeUrl: { type: String, required: true }, // Cloudinary URL [cite: 152]
     coverLetterUrl: { type: String, required: true }, // Cloudinary URL [cite: 152]
+    //add files commments
     status: {
       type: String,
       enum: [
