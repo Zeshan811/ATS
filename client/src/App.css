@@ -1,0 +1,40 @@
+/* App level layout styles */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content wrapper */
+.main-content {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+/* Page transition animation */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 300ms ease;
+}
+
+/* Simple loader center helper */
+.center-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+}
+
+/* Card hover enhancement (extra if needed beyond Tailwind) */
+.card-hover-strong {
+  transition: all 0.25s ease;
+}
+.card-hover-strong:hover {
+  transform: translateY(-2px);
+}
