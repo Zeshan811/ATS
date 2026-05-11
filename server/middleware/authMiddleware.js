@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-// Verify the JWT Token
+// Vrify the JWT Token
 exports.protect = (req, res, next) => {
   // Expecting header like: "Bearer <token>"
   const token = req.header("Authorization")?.split(" ")[1];
