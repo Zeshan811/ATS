@@ -32,3 +32,6 @@ exports.getAllJobs = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+
+//Job controller js set 
