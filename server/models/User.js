@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["Candidate", "HR"],
+      //model js set according to roles based
       default: "Candidate",
     },
   },
