@@ -11,6 +11,7 @@ import HRLayout from './components/layout/HRLayout';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 
 // Public Pages
+//All public pages
 import HomePage from './pages/public/HomePage';
 import JobsPage from './pages/public/JobsPage';
 import JobDetailPage from './pages/public/JobPageDetail';
