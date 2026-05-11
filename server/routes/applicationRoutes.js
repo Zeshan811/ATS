@@ -26,3 +26,4 @@ router.get("/job/:jobId", protect, authorize("HR"), getApplicationsForJob);
 router.put("/:id/status", protect, authorize("HR"), updateApplicationStatus);
 
 module.exports = router;
+//Application routes setting 
